@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daudz laimes, Raivo! 🎆</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Manrope', system-ui, sans-serif;
+    color: #f5f0e8;
+    background: #050810;
+  }
+
+  body {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  /* Pure dark night sky */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: #030509;
+    z-index: 0;
+  }
+
+  /* Distant stars */
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 4s infinite ease-in-out;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.9; }
+  }
+
+  /* Fireworks canvas - fullscreen behind content */
+  #fireworks {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Card */
+  .stage {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+  }
+
+  .card {
+    background: rgba(5, 8, 16, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+    padding: 3.5rem 2rem;
+    box-shadow:
+      0 30px 80px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: #f4c97a;
+    margin-bottom: 1.5rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid rgba(244, 201, 122, 0.3);
+    border-radius: 100px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 12vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+    color: #fff;
+    text-shadow:
+      0 0 30px rgba(255, 200, 100, 0.4),
+      0 0 60px rgba(255, 100, 150, 0.2);
+  }
+
+  h1.small-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+  }
+
+  .name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 18vw, 10rem);
+    line-height: 0.85;
+    letter-spacing: 0.04em;
+    background: linear-gradient(180deg, #fff5d4 0%, #ffb347 50%, #ff6b9d 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 0 40px rgba(255, 150, 100, 0.4));
+  }
+
+  .lead {
+    font-size: 1.1rem;
+    color: rgba(245, 240, 232, 0.75);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .wish {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(245, 240, 232, 0.9);
+    margin: 1.5rem 0 2.5rem;
+  }
+  .wish .accent {
+    color: #f4c97a;
+    font-weight: 600;
+  }
+
+  /* Buttons */
+  .btn {
+    border: none;
+    cursor: pointer;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #050810;
+    background: linear-gradient(135deg, #ffd86b 0%, #ff9a3c 100%);
+    border-radius: 100px;
+    padding: 1.1rem 2.5rem;
+    box-shadow:
+      0 10px 30px rgba(255, 154, 60, 0.4),
+      0 0 0 0 rgba(255, 200, 100, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 15px 40px rgba(255, 154, 60, 0.5),
+      0 0 0 8px rgba(255, 200, 100, 0.1);
+  }
+  .btn:active { transform: translateY(0); }
+
+  .btn-ghost {
+    background: transparent;
+    color: #f4c97a;
+    border: 1px solid rgba(244, 201, 122, 0.4);
+    box-shadow: none;
+    margin-top: 1rem;
+  }
+  .btn-ghost:hover {
+    background: rgba(244, 201, 122, 0.1);
+    box-shadow: none;
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .hidden { display: none !important; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in {
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Pulsing call-to-action emoji */
+  .emoji-big {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-10px) rotate(3deg); }
+  }
+
+  /* Pointing arrow above button */
+  .arrow {
+    display: block;
+    margin: 1.5rem auto 0.5rem;
+    font-size: 2.5rem;
+    color: #f4c97a;
+    animation: pointDown 1.2s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(244, 201, 122, 0.6));
+  }
+  @keyframes pointDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(12px); }
+  }
+
+  /* Falling beers */
+  .beers {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .beer {
+    position: absolute;
+    top: -60px;
+    font-size: 2.5rem;
+    animation: beerFall linear forwards;
+    will-change: transform;
+  }
+  @keyframes beerFall {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% {
+      transform: translateY(110vh) rotate(540deg);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+<div class="beers" id="beers"></div>
+
+<div class="stage">
+  <!-- Initial card -->
+  <div class="card fade-in" id="initialCard">
+    <div class="emoji-big">🎁</div>
+    <h1 class="small-title">Foršo vīrieti,</h1>
+    <p class="lead">ir kaut kas Tev...</p>
+    <span class="arrow">↓</span>
+    <button class="btn" id="openBtn">Paskaties</button>
+  </div>
+
+  <!-- Celebration card -->
+  <div class="card hidden" id="celebrationCard">
+    <div class="tag">12. maijs · 2026</div>
+    <h1>Daudz laimes,</h1>
+    <div class="name">RAIVO!</div>
+    <p class="wish">
+      Lai <span class="accent">maciņš vienmēr ir pilnāks</span> par alus kausu,<br>
+      bet katrs malks – <span class="accent">garšīgāks par iepriekšējo</span>.<br>
+      Novēlu atrast tādus piedzīvojumus,<br>
+      kurus nākamajā rītā gribēsies ne tikai atcerēties,<br>
+      bet arī <span class="accent">atkārtot</span>!<br><br>
+      Par tavu veselību un kārtīgu putu! 🍻
+    </p>
+    <div class="controls">
+      <button class="btn" id="moreBtn">Vēl vienu salūtu</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== Fireworks =====
+  const canvas = document.getElementById('fireworks');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize() {
+    W = canvas.width = window.innerWidth * devicePixelRatio;
+    H = canvas.height = window.innerHeight * devicePixelRatio;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.scale(1, 1);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Color palettes for fireworks
+  const palettes = [
+    ['#ff4d6d', '#ff8fa3', '#ffb3c1'],     // pink
+    ['#ffd60a', '#ffea00', '#fff3a0'],     // gold
+    ['#06d6a0', '#4ade80', '#a7f3d0'],     // green
+    ['#4cc9f0', '#7dd3fc', '#bae6fd'],     // cyan
+    ['#9d4edd', '#c77dff', '#e0aaff'],     // purple
+    ['#ff7b00', '#ffaa00', '#ffd57e'],     // orange
+    ['#ffffff', '#ffe6f0', '#fff5b8']      // white-warm
+  ];
+
+  // Rockets (rising trails)
+  const rockets = [];
+  // Particles (explosion sparks)
+  const particles = [];
+
+  function launchRocket(targetX, targetY, palette) {
+    const startX = W * (0.2 + Math.random() * 0.6);
+    const startY = H + 10;
+    const tx = targetX !== undefined ? targetX : W * (0.15 + Math.random() * 0.7);
+    const ty = targetY !== undefined ? targetY : H * (0.1 + Math.random() * 0.3);
+    const dx = tx - startX;
+    const dy = ty - startY;
+    const dist = Math.hypot(dx, dy);
+    const speed = 9 * devicePixelRatio;
+    const colors = palette || palettes[Math.floor(Math.random() * palettes.length)];
+    rockets.push({
+      x: startX, y: startY,
+      vx: (dx / dist) * speed,
+      vy: (dy / dist) * speed,
+      tx, ty,
+      colors,
+      trail: []
+    });
+  }
+
+  function explode(x, y, colors) {
+    // Slower, more visible explosions - sparks linger and spread gracefully
+    const count = 120 + Math.floor(Math.random() * 60);
+    const baseSpeed = (2.5 + Math.random() * 1.5) * devicePixelRatio;
+    const isChrys = Math.random() > 0.4;
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i) / count + Math.random() * 0.15;
+      const speed = baseSpeed * (0.7 + Math.random() * 0.6);
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        gravity: 0.04 * devicePixelRatio,
+        friction: 0.99,
+        life: 1,
+        decay: 0.004 + Math.random() * 0.004,
+        size: (1.8 + Math.random() * 1.5) * devicePixelRatio,
+        color,
+        trail: isChrys
+      });
+    }
+  }
+
+  function tick() {
+    // Moderate fade — sparks linger visibly but no white residue
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.globalCompositeOperation = 'lighter';
+
+    // Rockets
+    for (let i = rockets.length - 1; i >= 0; i--) {
+      const r = rockets[i];
+      r.x += r.vx;
+      r.y += r.vy;
+      r.trail.push({ x: r.x, y: r.y });
+      if (r.trail.length > 8) r.trail.shift();
+
+      // Draw trail
+      for (let j = 0; j < r.trail.length; j++) {
+        const t = r.trail[j];
+        const alpha = j / r.trail.length;
+        ctx.beginPath();
+        ctx.arc(t.x, t.y, 2 * devicePixelRatio * alpha, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 220, 150, ${alpha * 0.8})`;
+        ctx.fill();
+      }
+
+      // Sparks from rocket
+      ctx.beginPath();
+      ctx.arc(r.x, r.y, 2.5 * devicePixelRatio, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff5b8';
+      ctx.fill();
+
+      // Check if reached target
+      if ((r.vy < 0 && r.y <= r.ty) || (r.vx > 0 && r.x >= r.tx && r.vy > -1)) {
+        explode(r.x, r.y, r.colors);
+        rockets.splice(i, 1);
+      }
+    }
+
+    // Particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+
+      if (p.flash) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * p.life);
+        grad.addColorStop(0, `rgba(255, 255, 255, ${p.life})`);
+        grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = grad;
+        ctx.fill();
+      } else {
+        p.vx *= p.friction;
+        p.vy *= p.friction;
+        p.vy += p.gravity;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= p.decay;
+
+        if (p.trail) {
+          // Glowing tail
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.life;
+          ctx.fill();
+          // Outer glow
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+          ctx.globalAlpha = p.life * 0.2;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        } else {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.life;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      if (p.life <= 0) particles.splice(i, 1);
+    }
+
+    ctx.globalCompositeOperation = 'source-over';
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  // ===== Show fireworks ====
+  let ambientInterval = null;
+
+  function ambientShow() {
+    // Launch one rocket at a time - clearer to follow
+    launchRocket();
+  }
+
+  function startAmbient() {
+    if (ambientInterval) return;
+    ambientShow();
+    ambientInterval = setInterval(ambientShow, 2200);
+  }
+
+  function burstNow(count = 3) {
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => launchRocket(), i * 500);
+    }
+  }
+
+  function grandFinale() {
+    // unused
+  }
+
+  // ===== Falling beers =====
+  const beersLayer = document.getElementById('beers');
+  const beerEmojis = ['🍺', '🍻'];
+  let beerInterval = null;
+
+  function dropBeer() {
+    const b = document.createElement('div');
+    b.className = 'beer';
+    b.textContent = beerEmojis[Math.random() > 0.6 ? 1 : 0];
+    b.style.left = Math.random() * 100 + '%';
+    b.style.fontSize = (1.8 + Math.random() * 1.5) + 'rem';
+    const duration = 5 + Math.random() * 5;
+    b.style.animationDuration = duration + 's';
+    beersLayer.appendChild(b);
+    setTimeout(() => b.remove(), duration * 1000);
+  }
+
+  function startBeers() {
+    if (beerInterval) return;
+    // Initial flurry
+    for (let i = 0; i < 8; i++) {
+      setTimeout(dropBeer, i * 250);
+    }
+    beerInterval = setInterval(dropBeer, 600);
+  }
+
+  // ===== Events =====
+  document.getElementById('openBtn').addEventListener('click', () => {
+    document.getElementById('initialCard').classList.add('hidden');
+    const cel = document.getElementById('celebrationCard');
+    cel.classList.remove('hidden');
+    cel.classList.add('fade-in');
+    burstNow(3);
+    startAmbient();
+    startBeers();
+  });
+
+  document.getElementById('moreBtn').addEventListener('click', () => burstNow(2));
+</script>
+
+</body>
+</html>
